@@ -95,13 +95,17 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         }
 
 
-        if (layout == R.layout.item_movie_popular) {
-            Picasso.with(getContext()).load(movie.getBackdropPath()).placeholder(R.drawable.placeholder).into(viewHolder.backdropImage);
+        if (layout == R.layout.item_movie) {
+            Picasso.with(getContext()).load(movie.getPosterPath()).placeholder(R.drawable.placeholder).into(viewHolder.image);
         } else {
+            Picasso.with(getContext()).load(movie.getBackdropPath()).placeholder(R.drawable.placeholder).into(viewHolder.backdropImage);
+        }
+        if (layout != R.layout.item_movie_popular) {
             viewHolder.title.setText(movie.getOriginalTitle());
             viewHolder.overview.setText(movie.getOverview());
-            Picasso.with(getContext()).load(movie.getPosterPath()).placeholder(R.drawable.placeholder).into(viewHolder.image);
         }
+
+
         //return view
         return convertView;
     }
