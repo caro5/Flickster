@@ -27,22 +27,49 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         TextView overview;
     }
 
-    public MovieArrayAdapter(Context context, List<Movie>movies) {
+    public MovieArrayAdapter(Context context, List<Movie> movies) {
         super(context, R.layout.item_movie, movies);
     }
 
-    private int getLayout() {
+    // Returns # of view types that will be created by getView(int, View, ViewGroup)
+    @Override
+    public int getViewTypeCount() {
+        return 2;
+    }
+
+    // Get the type of View that will be created by getView(int, View, ViewGroup)
+    // for the specified item.
+    @Override
+    public int getItemViewType(int position) {
+        if (getItem(position).isPopular()) {
+            return 1;
+        }
+        ;
+        return 0;
+    }
+
+    public View getInflatedLayoutForType(int type) {
+        if (type == 1) {
+            return LayoutInflater.from(getContext()).inflate(R.layout.item_movie_popular, null);
+        }
+        return LayoutInflater.from(getContext()).inflate(R.layout.item_movie, null);
+    }
+
+    private int getLayout(Integer pos) {
         int orientation = getContext().getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             return R.layout.item_movie_landscape;
+        } else {
+            if (getItemViewType(pos) == 1) {
+                return R.layout.item_movie_popular;
+            }
+            return R.layout.item_movie;
         }
-        return R.layout.item_movie;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        //get layout
-        int layout = getLayout();
+        int layout = getLayout(position);
         // get data item for position
         Movie movie = getItem(position);
 
@@ -67,22 +94,13 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-//        // find image view
-//        ImageView ivImage = (ImageView) convertView.findViewById(R.id.ivMovieImage);
-//
-//        // clear our image from convertView if it was being used
-//        ivImage.setImageResource(0);
-//
-//        TextView tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
-//        TextView tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
 
-        // populate data
-        viewHolder.title.setText(movie.getOriginalTitle());
-        viewHolder.overview.setText(movie.getOverview());
-        if (layout == R.layout.item_movie) {
-            Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolder.image);
+        if (layout == R.layout.item_movie_popular) {
+            Picasso.with(getContext()).load(movie.getBackdropPath()).placeholder(R.drawable.placeholder).into(viewHolder.backdropImage);
         } else {
-            Picasso.with(getContext()).load(movie.getBackdropPath()).into(viewHolder.backdropImage);
+            viewHolder.title.setText(movie.getOriginalTitle());
+            viewHolder.overview.setText(movie.getOverview());
+            Picasso.with(getContext()).load(movie.getPosterPath()).placeholder(R.drawable.placeholder).into(viewHolder.image);
         }
         //return view
         return convertView;
