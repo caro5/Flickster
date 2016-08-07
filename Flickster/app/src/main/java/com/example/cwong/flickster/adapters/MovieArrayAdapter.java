@@ -94,13 +94,14 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        //set data
+        viewHolder.title.setText(movie.getOriginalTitle());
         if (layout == R.layout.item_movie) {
             Picasso.with(getContext()).load(movie.getPosterPath()).placeholder(R.drawable.placeholder).into(viewHolder.image);
         } else {
             Picasso.with(getContext()).load(movie.getBackdropPath()).placeholder(R.drawable.placeholder).into(viewHolder.backdropImage);
         }
         if (layout != R.layout.item_movie_popular) {
-            viewHolder.title.setText(movie.getOriginalTitle());
             viewHolder.overview.setText(movie.getOverview());
         }
 

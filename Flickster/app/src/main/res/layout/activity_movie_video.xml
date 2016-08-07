@@ -7,10 +7,10 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.cwong.flickster.MovieVideoActivity">
+    tools:context="com.example.cwong.flickster.MovieVideoActivity"
+    android:background="#000000">
     <com.google.android.youtube.player.YouTubePlayerView
         android:id="@+id/player"
-        android:screenOrientation="landscape"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/tvError"
+        android:textColor="@color/colorSynopsis"
         android:layout_below="@+id/player"
         android:layout_centerHorizontal="true" />
 
