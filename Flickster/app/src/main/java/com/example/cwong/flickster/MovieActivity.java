@@ -1,9 +1,12 @@
 package com.example.cwong.flickster;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.cwong.flickster.adapters.MovieArrayAdapter;
@@ -20,6 +23,8 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 
 public class MovieActivity extends AppCompatActivity {
+    private final int REQUEST_MOVIE_INFO_CODE = 55;
+
     SwipeRefreshLayout swipeContainer;
 
     ArrayList<Movie> movies;
@@ -71,6 +76,32 @@ public class MovieActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
+        setUpListViewListener();
+    }
+
+    private void setUpListViewListener() {
+        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Movie selectedMovie = movieAdapter.getItem(position);
+                Intent i = new Intent(MovieActivity.this, MovieInfoActivity.class);
+                i.putExtra("title", selectedMovie.getOriginalTitle());
+                i.putExtra("overview", selectedMovie.getOverview());
+                i.putExtra("popularity", selectedMovie.getPopularity());
+                i.putExtra("vote", selectedMovie.getVote());
+                startActivityForResult(i, REQUEST_MOVIE_INFO_CODE);
+            }
+        });
+        lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Movie selectedMovie = movieAdapter.getItem(position);
+                Intent i = new Intent(MovieActivity.this, MovieVideoActivity.class);
+                i.putExtra("trailerUrl", selectedMovie.getTrailerUrl());
+                startActivityForResult(i, REQUEST_MOVIE_INFO_CODE);
+                return true;
             }
         });
     }

@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
@@ -26,22 +27,40 @@ public class Movie {
         return String.format("https://image.tmdb.org/t/p/w342/%s", backdropPath);
     }
 
-    public Integer getVote() {
+    public String getTrailerUrl() {
+        return String.format("https://api.themoviedb.org/3/movie/%s/trailers?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed", movieId);
+    }
+
+
+    public Float getVote() {
         return vote;
     }
 
+    public Float getPopularity() {
+        return popularity;
+    }
+
+    public Integer getMovieId() {
+        return movieId;
+    }
+
+    Integer movieId;
     String posterPath;
     String backdropPath;
     String originalTitle;
     String overview;
-    Integer vote;
+    Float vote;
+    Float popularity;
+
 
     public Movie(JSONObject jsonObject) throws JSONException {
+        this.movieId = jsonObject.getInt("id");
         this.posterPath = jsonObject.getString("poster_path");
         this.backdropPath = jsonObject.getString("backdrop_path");
         this.originalTitle = jsonObject.getString("original_title");
         this.overview = jsonObject.getString("overview");
-        this.vote = jsonObject.getInt("vote_average");
+        this.vote = BigDecimal.valueOf(jsonObject.getDouble("vote_average")).floatValue();
+        this.popularity = BigDecimal.valueOf(jsonObject.getDouble("popularity")).floatValue();
     }
 
     public static ArrayList<Movie> fromJSONArray(JSONArray array) {

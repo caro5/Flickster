@@ -94,7 +94,6 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-
         if (layout == R.layout.item_movie) {
             Picasso.with(getContext()).load(movie.getPosterPath()).placeholder(R.drawable.placeholder).into(viewHolder.image);
         } else {
