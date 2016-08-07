@@ -20,25 +20,26 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
 public class MovieActivity extends AppCompatActivity {
     private final int REQUEST_MOVIE_INFO_CODE = 55;
 
-    SwipeRefreshLayout swipeContainer;
+    @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
+    @BindView(R.id.lvMovies) ListView lvItems;
 
     ArrayList<Movie> movies;
     MovieArrayAdapter movieAdapter;
-    ListView lvItems;
     AsyncHttpClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
+        ButterKnife.bind(this);
 
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
-        lvItems = (ListView) findViewById(R.id.lvMovies);
         movies = new ArrayList<>();
         movieAdapter = new MovieArrayAdapter(this, movies);
         lvItems.setAdapter(movieAdapter);
@@ -88,10 +89,6 @@ public class MovieActivity extends AppCompatActivity {
                 Movie selectedMovie = movieAdapter.getItem(position);
                 Intent i = new Intent(MovieActivity.this, MovieInfoActivity.class);
                 i.putExtra("movie", selectedMovie);
-//                i.putExtra("title", selectedMovie.getOriginalTitle());
-                i.putExtra("overview", selectedMovie.getOverview());
-                i.putExtra("popularity", selectedMovie.getPopularity());
-                i.putExtra("vote", selectedMovie.getVote());
                 startActivityForResult(i, REQUEST_MOVIE_INFO_CODE);
             }
         });
@@ -115,11 +112,9 @@ public class MovieActivity extends AppCompatActivity {
                 JSONArray moviesJsonResults = null;
                 try {
                     moviesJsonResults = response.getJSONArray("results");
-                    // movies.addAll(Movie.fromJSONArray(moviesJsonResults));
                     movieAdapter.clear();
                     movieAdapter.addAll(Movie.fromJSONArray(moviesJsonResults));
                     swipeContainer.setRefreshing(false);
-                    // movieAdapter.notifyDataSetChanged();
                     Log.d("DEBUG", movies.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();

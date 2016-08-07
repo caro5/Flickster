@@ -17,24 +17,27 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
 public class MovieVideoActivity extends YouTubeBaseActivity {
+    @BindView(R.id.tvError) TextView tvError;
     private String YOUTUBE_API_KEY="AIzaSyBmMNe8gZUEtVBZGt3jPCT3gBCwT7RJu_Q";
     private String trailerUrl;
     private boolean isPopular;
     private ArrayList<Video> videos;
-    private TextView tvError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_video);
+        ButterKnife.bind(this);
+
         trailerUrl = getIntent().getStringExtra("trailerUrl");
         isPopular = getIntent().getBooleanExtra("isPopular", false);
 
         videos = new ArrayList<>();
-        tvError = (TextView) findViewById(R.id.tvError);
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(trailerUrl, new JsonHttpResponseHandler(){
