@@ -18,8 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MovieInfoActivity" />
-        <activity android:name=".MovieVideoActivity"
-            android:screenOrientation="landscape"></activity>
+        <activity android:name=".MovieVideoActivity"></activity>
     </application>
 
 </manifest>

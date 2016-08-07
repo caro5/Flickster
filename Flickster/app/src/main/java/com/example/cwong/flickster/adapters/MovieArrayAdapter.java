@@ -87,7 +87,10 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                 viewHolder.backdropImage = (ImageView) convertView.findViewById(R.id.ivBackdropImage);
             }
             viewHolder.title = (TextView) convertView.findViewById(R.id.tvTitle);
-            viewHolder.overview = (TextView) convertView.findViewById(R.id.tvOverview);
+            if (layout != R.layout.item_movie_popular) {
+                viewHolder.overview = (TextView) convertView.findViewById(R.id.tvOverview);
+
+            }
             // Cache the viewHolder object inside the fresh view
             convertView.setTag(viewHolder);
         } else {
