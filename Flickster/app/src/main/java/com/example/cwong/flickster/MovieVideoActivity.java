@@ -1,6 +1,7 @@
 package com.example.cwong.flickster;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.example.cwong.flickster.models.Video;
 import com.google.android.youtube.player.YouTubeBaseActivity;
@@ -21,14 +22,19 @@ import cz.msebera.android.httpclient.Header;
 public class MovieVideoActivity extends YouTubeBaseActivity {
     private String YOUTUBE_API_KEY="AIzaSyBmMNe8gZUEtVBZGt3jPCT3gBCwT7RJu_Q";
     private String trailerUrl;
+    private boolean isPopular;
     private ArrayList<Video> videos;
+    private TextView tvError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_video);
         trailerUrl = getIntent().getStringExtra("trailerUrl");
+        isPopular = getIntent().getBooleanExtra("isPopular", false);
+
         videos = new ArrayList<>();
+        tvError = (TextView) findViewById(R.id.tvError);
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(trailerUrl, new JsonHttpResponseHandler(){
@@ -38,7 +44,11 @@ public class MovieVideoActivity extends YouTubeBaseActivity {
                 try {
                     videoJsonResults = response.getJSONArray("youtube");
                     videos.addAll(Video.fromJSONArray(videoJsonResults));
-                    playVideo(videos.get(0).getSource());
+                    if (videos.size() > 0) {
+                        playVideo(videos.get(0).getSource());
+                    } else {
+                        tvError.setText("No trailers found");
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -55,8 +65,11 @@ public class MovieVideoActivity extends YouTubeBaseActivity {
         playerView.initialize(YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                // youTubePlayer.cueVideo(url);  // loads video
-                youTubePlayer.loadVideo(url); // plays video
+                if (isPopular) {
+                    youTubePlayer.loadVideo(url); // plays video
+                } else {
+                    youTubePlayer.cueVideo(url);  // loads video
+                }
             }
             @Override
             public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {

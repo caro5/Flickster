@@ -100,6 +100,7 @@ public class MovieActivity extends AppCompatActivity {
                 Movie selectedMovie = movieAdapter.getItem(position);
                 Intent i = new Intent(MovieActivity.this, MovieVideoActivity.class);
                 i.putExtra("trailerUrl", selectedMovie.getTrailerUrl());
+                i.putExtra("isPopular", selectedMovie.isPopular());
                 startActivityForResult(i, REQUEST_MOVIE_INFO_CODE);
                 return true;
             }
