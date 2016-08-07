@@ -87,7 +87,8 @@ public class MovieActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Movie selectedMovie = movieAdapter.getItem(position);
                 Intent i = new Intent(MovieActivity.this, MovieInfoActivity.class);
-                i.putExtra("title", selectedMovie.getOriginalTitle());
+                i.putExtra("movie", selectedMovie);
+//                i.putExtra("title", selectedMovie.getOriginalTitle());
                 i.putExtra("overview", selectedMovie.getOverview());
                 i.putExtra("popularity", selectedMovie.getPopularity());
                 i.putExtra("vote", selectedMovie.getVote());

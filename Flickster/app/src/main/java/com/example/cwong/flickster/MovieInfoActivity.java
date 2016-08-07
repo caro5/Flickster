@@ -1,37 +1,23 @@
 package com.example.cwong.flickster;
 
+import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.RatingBar;
-import android.widget.TextView;
+
+import com.example.cwong.flickster.databinding.ActivityMovieInfoBinding;
+import com.example.cwong.flickster.models.Movie;
 
 public class MovieInfoActivity extends AppCompatActivity {
-    private String title;
-    private String overview;
-    private float popularity;
-    private float vote;
+    private ActivityMovieInfoBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie_info);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_movie_info);
 
-        title = getIntent().getStringExtra("title");
-        overview = getIntent().getStringExtra("overview");
-        popularity = getIntent().getFloatExtra("popularity", -1);
-        vote = getIntent().getFloatExtra("vote", -1);
-
-        TextView titleView = (TextView) findViewById(R.id.tvTitle);
-        titleView.setText(title);
-
-        RatingBar ratingBar = (RatingBar) findViewById(R.id.rbRating);
-        ratingBar.setRating(vote);
-
-        TextView popularityView = (TextView) findViewById(R.id.tvPopularity);
-        popularityView.setText(String.valueOf(popularity));
-
-        TextView synopsisView = (TextView) findViewById(R.id.tvSynopsis);
-        synopsisView.setText(overview);
-
+        Intent i = getIntent();
+        Movie m = (Movie)i.getSerializableExtra("movie");
+        binding.setMovie(m);
     }
 }

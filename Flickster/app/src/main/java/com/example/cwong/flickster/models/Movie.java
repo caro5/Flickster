@@ -4,13 +4,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
  * Created by cwong on 8/3/16.
  */
-public class Movie {
+public class Movie implements Serializable {
     public String getPosterPath() {
         return String.format("https://image.tmdb.org/t/p/w342/%s", posterPath);
     }

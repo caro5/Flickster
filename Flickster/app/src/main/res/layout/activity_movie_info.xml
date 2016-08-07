@@ -1,55 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.cwong.flickster.MovieInfoActivity"
-    android:background="#000000">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="movie"
+            type="com.example.cwong.flickster.models.Movie" />
+    </data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.example.cwong.flickster.MovieInfoActivity"
+        android:background="#000000">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        tools:text="Batman v Superman: Dawn of Justice"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:textColor="@color/colorMainText"
-        android:layout_alignParentStart="true"
-        android:id="@+id/tvTitle" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@{movie.getOriginalTitle()}"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/colorMainText"
+            android:layout_alignParentStart="true"
+            android:id="@+id/tvTitle" />
 
-    <RatingBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="?android:attr/ratingBarStyleSmall"
-        android:id="@+id/rbRating"
-        android:layout_below="@+id/tvPopularity"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:isIndicator="true"
-        android:numStars="10" />
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/ratingBarStyleSmall"
+            android:id="@+id/rbRating"
+            android:layout_below="@+id/tvPopularity"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:isIndicator="true"
+            android:rating="@{movie.getVote()}"
+            android:numStars="10" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Fearing the actions of a god-like Super Hero left unchecked, Gotham City’s own formidable, forceful vigilante takes on Metropolis’s most revered, modern-day savior, while the world wrestles with what sort of hero it really needs. And with Batman and Superman at war with one another, a new threat quickly arises, putting mankind in greater danger than it’s ever known before."
-        android:id="@+id/tvSynopsis"
-        android:layout_below="@+id/rbRating"
-        android:textColor="@color/colorSynopsis"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{movie.getOverview()}"
+            android:id="@+id/tvSynopsis"
+            android:layout_below="@+id/rbRating"
+            android:textColor="@color/colorSynopsis"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        tools:text="32.148365"
-        android:textColor="@color/colorSynopsis"
-        android:id="@+id/tvPopularity"
-        android:layout_below="@+id/tvTitle"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-</RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/colorSynopsis"
+            android:text="@{String.valueOf(movie.getPopularity())}"
+            android:id="@+id/tvPopularity"
+            android:layout_below="@+id/tvTitle"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+</layout>
